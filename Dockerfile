@@ -26,4 +26,3 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 #赋予脚本可执行权限
       && chmod a+x -R /cron-shell/ \
       && chmod a+x -R /docker-entrypoint-initdb.d
-
