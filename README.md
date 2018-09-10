@@ -19,14 +19,19 @@
             3. `/var/lib/mysql`属于mysql用户,不需要额外授予文件操作权限,故建议将新生成文件放到该目录下
 2. 数据库初始化脚本(.sql或.sql.gz)和容器启动后运行脚本(.sh)放到/docker-entrypoint-initdb.d目录下
     - 注意事项:不能整个文件夹映射,否则原start.sh启动文件会丢失,应使用单文件映射或COPY(ADD)将文件添加进容器
+
 #### 使用建议
 将生成文件放到`/var/lib/mysql`下,并将`/var/lib/mysql`目录映射到宿主机
 #### 使用范例
-##### docker run 形式
+- docker run 形式
 ```docker
 docker run --name lin-mysql -p 3306:3306  --restart=always -v /my/own/cron-shell:/cron-shell -v /my/own/init-sql/data_20180909.sql.gz:/docker-entrypoint-initdb.d/init.sql.gz  -v /my/own/datadir:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=mypasswd -d linshen/mysql-cron --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 ```
-##### docker-compose 形式
-参考docker-compose文件夹
+- docker-compose 形式
+参考[docker-compose文件夹](https://github.com/linshenkx/mysql-cron/tree/master/docker-compose)
+
+CSDN文章:
+[Dockerfile实现MySQL定时备份](https://blog.csdn.net/alinyua/article/details/82532988)
+
 
 

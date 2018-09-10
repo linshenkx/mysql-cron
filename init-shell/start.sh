@@ -16,11 +16,11 @@ env >> /etc/default/locale
 sudo /usr/sbin/service cron start &>> /var/lib/mysql/cron-start.log
 
 #授予执行权限
-sudo chmod a+x -R /cron-shell/
+sudo chmod 777 -R /cron-shell
 
 #修正文件格式
 for f in /cron-shell/*; do
-	dos2unix "$f"
+	sudo dos2unix "$f"
 done
 
 #以/cron-shell/crontab.bak作为crontab的任务列表文件并载入
