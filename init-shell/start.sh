@@ -20,5 +20,5 @@ sudo /usr/sbin/service cron start &>> /var/lib/mysql/cron-start.log
 crontab /cron-shell/crontab.bak
 
 #给予用户新添加脚本执行权限
-chmod a+x -R /cron-shell/
+sudo chmod a+x -R /cron-shell/
 

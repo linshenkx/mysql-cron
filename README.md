@@ -4,7 +4,7 @@
 
 ####使用说明:
 - 将要定时运行的脚本文件(如backup.sh)和cron任务表(文件名必须为crontab.bak)放到容器目录/cron-shell下
-- 数据库初始化脚本(.sql或.sql.gz)和容器启动后运行脚本(.sh)放到/docker-entrypoint-initdb.d目录下
+- 数据库初始化脚本(.sql或.sql.gz)和容器启动后运行脚本(.sh)放到/docker-entrypoint-initdb.d目录下,注意不能整个文件夹映射,否则原start.sh启动文件会丢失
 
 ####默认实现:
 每分钟执行一次任务:将所有数据库导出并按日期命名,压缩,同时删除7天前的备份数据
@@ -13,8 +13,7 @@
 
 ####使用范例
 ```docker
-docker run --name lin-mysql -p 3306:3306  --restart=always -v /my/own/cron-shell:/cron-shell -v /my/own/init-sql/:/docker-entrypoint-initdb.d  -v /my/own/datadir:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=mypasswd -d linshen/mysql-cron --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-
+docker run --name lin-mysql -p 3306:3306  --restart=always -v /my/own/cron-shell:/cron-shell -v /my/own/init-sql/data_20180909.sql.gz:/docker-entrypoint-initdb.d/init.sql.gz  -v /my/own/datadir:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=mypasswd -d linshen/mysql-cron --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 ```
 
 ####注意事项:
