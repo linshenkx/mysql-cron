@@ -9,8 +9,7 @@
         - 默认功能: 每分钟运行一次/cron-shell/backup.sh
         - 注意事项: 
             1. 任务表文件只能有一个,且文件名必须为crontab.bak
-            2. crontab.bak结尾要换行,否则crontab载入文件时会报错
-            3. 该任务列表属mysql用户,root用户下可通过`gosu mysql crontab -l`查看
+            2. 该任务列表属mysql用户,root用户下可通过`gosu mysql crontab -l`查看
     2. backup.sh
         - 默认功能:将所有数据库导出并按日期命名,压缩,同时删除7天前的备份数据,备份数据在`/var/lib/mysql/backup`目录下
         - 注意事项:

@@ -15,16 +15,18 @@ env >> /etc/default/locale
 # 虽然如此,mysql用户身份制定的定时任务还是会执行的
 sudo /usr/sbin/service cron start &>> /var/lib/mysql/cron-start.log
 
-#授予执行权限
+#授予权限
 sudo chmod 777 -R /cron-shell
 
-#修正文件格式
+#修正文件格式,这里dos2unix的执行也需要sudo,否则会报错`Failed to change the owner and group of temporary output file /cron-shell/d2utmpKfjPMF: Operation not permitted`
 for f in /cron-shell/*; do
 	sudo dos2unix "$f"
 done
 
+# 确保结尾换行,避免出现错误:`new crontab file is missing newline before EOF, can't install.`
+echo "" >> /cron-shell/crontab.bak
+
 #以/cron-shell/crontab.bak作为crontab的任务列表文件并载入
-# 注意,该文件必须为unix格式,且结尾必须换行,否则会报错
 # 因为执行的定时任务一般是数据库相关的,mysql用户就可以了,如果使用root用户可能会报错:`Got error: 1045: Access denied for user 'root'@'localhost' (using password: YES) when trying to connect`
 # 所以这里使用mysql用户载入定时任务表,任务脚本也将以mysql用户执行,需注意权限问题
 crontab /cron-shell/crontab.bak
