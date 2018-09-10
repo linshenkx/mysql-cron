@@ -6,8 +6,6 @@ MAINTAINER LinShen
 COPY cron-shell/ /cron-shell/
 #将int-shell中的脚本都复制到初始化文件夹中
 COPY init-shell/ /docker-entrypoint-initdb.d/
-#将int-sql中的sql都复制到初始化文件夹中
-COPY init-sql/ /docker-entrypoint-initdb.d/
 
 #修正时区
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
