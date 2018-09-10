@@ -14,6 +14,8 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
       && apt-get update \
 #安装cron
       && apt-get install -y  --no-install-recommends cron \
+#安装dos2unix工具
+      && apt-get install -y  dos2unix \
 #安装sudo
       && apt-get install sudo \
 #授予mysql组用户sudo免密码
@@ -22,5 +24,4 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
       && rm -rf /var/lib/apt/lists/*  \
       && apt-get clean \
 #赋予脚本可执行权限
-      && chmod a+x -R /cron-shell/ \
       && chmod a+x -R /docker-entrypoint-initdb.d

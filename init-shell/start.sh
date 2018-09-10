@@ -15,10 +15,19 @@ env >> /etc/default/locale
 # 虽然如此,mysql用户身份制定的定时任务还是会执行的
 sudo /usr/sbin/service cron start &>> /var/lib/mysql/cron-start.log
 
+#授予执行权限
+sudo chmod a+x -R /cron-shell/
+
+#修正文件格式
+for f in /cron-shell/*; do
+	dos2unix "$f"
+done
+
 #以/cron-shell/crontab.bak作为crontab的任务列表文件并载入
 # 注意,该文件必须为unix格式,且结尾必须换行,否则会报错
+# 因为执行的定时任务一般是数据库相关的,mysql用户就可以了,如果使用root用户可能会报错:`Got error: 1045: Access denied for user 'root'@'localhost' (using password: YES) when trying to connect`
+# 所以这里使用mysql用户载入定时任务表,任务脚本也将以mysql用户执行,需注意权限问题
 crontab /cron-shell/crontab.bak
 
-#给予用户新添加脚本执行权限
-sudo chmod a+x -R /cron-shell/
+
 
