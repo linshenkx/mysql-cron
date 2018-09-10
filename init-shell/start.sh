@@ -18,3 +18,7 @@ sudo /usr/sbin/service cron start &>> /var/lib/mysql/cron-start.log
 #以/cron-shell/crontab.bak作为crontab的任务列表文件并载入
 # 注意,该文件必须为unix格式,且结尾必须换行,否则会报错
 crontab /cron-shell/crontab.bak
+
+#给予用户新添加脚本执行权限
+chmod a+x -R /cron-shell/
+
