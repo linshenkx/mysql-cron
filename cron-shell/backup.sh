@@ -4,7 +4,7 @@
 #读取环境变量
 . /etc/profile
 #如果目录不存在则新建
-DIR=/var/lib/mysql/backup
+DIR=/opt/mysql/backup
 if [ ! -e $DIR ]
 then
 /bin/mkdir -p $DIR

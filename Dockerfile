@@ -2,11 +2,6 @@ FROM mysql:5.7
 
 MAINTAINER LinShen
 
-#将任务脚本复制进容器,需要注意不能放到/var/lib/mysql目录下,该目录随mysql初始化会被清空造成原文件丢失
-COPY cron-shell/ /cron-shell/
-#将int-shell中的脚本都复制到初始化文件夹中
-COPY init-shell/ /docker-entrypoint-initdb.d/
-
 #修正时区
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
       && echo 'Asia/Shanghai' >/etc/timezone \
@@ -25,3 +20,10 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
       && apt-get clean \
 #赋予脚本可执行权限
       && chmod a+x -R /docker-entrypoint-initdb.d
+
+#将任务脚本复制进容器,需要注意不能放到/var/lib/mysql目录下,该目录随mysql初始化会被清空造成原文件丢失
+COPY cron-shell/ /cron-shell/
+
+COPY start.sh /tmp/start.sh
+
+ENTRYPOINT ["/tmp/start.sh"]

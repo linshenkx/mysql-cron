@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 #此脚本由mysql用户执行,故需要加sudo避免权限不够,同时,新建文件一般放在/var/lib/mysql目录下,否则同样权限不够
 
 #修改文件夹权限,否则无法在该目录下创建文件
@@ -13,7 +13,8 @@ env >> /etc/default/locale
 # 需要注意的是,使用sudo后cron是在root用户下运行的,root用户下使用`service cron status`会出现` [ ok ] cron is running. `
 # 而mysql执行`service cron status`则会出现` [FAIL] cron is not running ... failed! `
 # 虽然如此,mysql用户身份制定的定时任务还是会执行的
-sudo /usr/sbin/service cron start &>> /var/lib/mysql/cron-start.log
+mkdir -p /opt/mysql/backup
+sudo /usr/sbin/service cron start 1>> /opt/mysql/backup/cron-start.log 2>&1  &
 
 #授予权限
 sudo chmod 777 -R /cron-shell
@@ -31,5 +32,5 @@ echo "" >> /cron-shell/crontab.bak
 # 所以这里使用mysql用户载入定时任务表,任务脚本也将以mysql用户执行,需注意权限问题
 crontab /cron-shell/crontab.bak
 
-
+docker-entrypoint.sh "$@"
 
